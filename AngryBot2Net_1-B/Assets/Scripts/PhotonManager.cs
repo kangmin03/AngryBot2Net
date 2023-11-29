@@ -113,10 +113,16 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             Debug.Log($"{player.Value.NickName} , {player.Value.ActorNumber}");
         }
         // 마스터 클라이언트인 경우에 룸에 입장한 후 전투 씬을 로딩한다.
+
         if (PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.LoadLevel("BattleField");
         }
+
+        Transform[] points = GameObject.Find("SpawnPointGroup").GetComponentsInChildren<Transform>();
+        int idx = Random.Range(1, points.Length);
+        // 네트워크상에 캐릭터 생성
+        PhotonNetwork.Instantiate("Player", points[idx].position, points[idx].rotation, 0);
     }
     #region UI_BUTTON_EVENT
     public void OnLoginClick()
